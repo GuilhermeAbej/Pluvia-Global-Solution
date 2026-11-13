@@ -1,0 +1,94 @@
+@host = http://localhost:5080
+@oficial = chave-oficial-demo
+
+### 1. Cadastra usuários (repita para criar Bruno, Carla...)
+POST {{host}}/api/usuarios
+Content-Type: application/json
+
+{ "nome": "Ana", "consentimentoLgpd": true }
+
+### 2. Ana monitora a própria casa (perto do sensor de exemplo)
+POST {{host}}/api/locais-monitorados
+Content-Type: application/json
+X-Usuario-Id: 1
+
+{ "nome": "Minha casa", "lat": -23.5655, "lng": -46.6502, "raioMetros": 500 }
+
+### 3. Região sem dados: "SemDadosRecentes", nunca "seguro"
+GET {{host}}/api/ocorrencias?lat=-23.9&lng=-46.9
+
+### 4. Sensor envia leitura acima do limite (1ª: só registra)
+POST {{host}}/api/sensores/leituras
+Content-Type: application/json
+
+{ "codigo": "ESP32-001", "nivelCm": 90 }
+
+### 5. 2ª leitura seguida: abre a ocorrência e "notifica" (veja o log do console)
+POST {{host}}/api/sensores/leituras
+Content-Type: application/json
+
+{ "codigo": "ESP32-001", "nivelCm": 95 }
+
+### 6. Ocorrências ativas, histórico e avisos
+GET {{host}}/api/ocorrencias?lat=-23.5650&lng=-46.6500
+
+###
+GET {{host}}/api/ocorrencias/1/historico
+
+###
+GET {{host}}/api/alertas
+X-Usuario-Id: 1
+
+### 7. Duas leituras abaixo do limite encerram (aviso com fonte e horário, sem prometer segurança)
+POST {{host}}/api/sensores/leituras
+Content-Type: application/json
+
+{ "codigo": "ESP32-001", "nivelCm": 10 }
+
+###
+POST {{host}}/api/sensores/leituras
+Content-Type: application/json
+
+{ "codigo": "ESP32-001", "nivelCm": 12 }
+
+### 8. Fonte oficial registra e encerra uma ocorrência (fonteId 1 = CGE-SP simulada)
+POST {{host}}/api/ocorrencias
+Content-Type: application/json
+X-Chave-Oficial: {{oficial}}
+
+{ "fonteId": 1, "lat": -23.55, "lng": -46.63, "descricao": "Avenida de teste" }
+
+###
+POST {{host}}/api/ocorrencias/2/encerramento
+Content-Type: application/json
+X-Chave-Oficial: {{oficial}}
+
+{ "fonteId": 1 }
+
+### 9. Veículo: monitora o entorno de onde está estacionado
+POST {{host}}/api/veiculos
+Content-Type: application/json
+X-Usuario-Id: 1
+
+{ "apelido": "Carro da Ana", "raioMetros": 400 }
+
+###
+PUT {{host}}/api/veiculos/1/posicao
+Content-Type: application/json
+X-Usuario-Id: 1
+
+{ "lat": -23.5652, "lng": -46.6501 }
+
+### 10. Risco estimado de um ponto ("onde estacionar")
+GET {{host}}/api/riscos?lat=-23.565&lng=-46.65
+
+### 11. Silenciar avisos do local por 60 minutos
+POST {{host}}/api/locais-monitorados/1/silencio
+Content-Type: application/json
+X-Usuario-Id: 1
+
+{ "minutos": 60 }
+
+### Relato com foto (multipart): use o Swagger ou o curl abaixo. O relato nasce "em análise".
+# curl -H "X-Usuario-Id: 1" -F lat=-23.60 -F lng=-46.70 -F descricao="agua na rua" -F tipo=AguaSobreAVia -F fotoAtualConfirmada=true -F "foto=@foto.jpg" http://localhost:5080/api/relatos
+# Com 3 pessoas diferentes no mesmo ponto, os relatos são publicados em GET /api/relatos/comunitarios
