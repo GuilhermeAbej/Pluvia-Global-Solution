@@ -1,7 +1,7 @@
 # Alaga: monitoramento e prevenção inteligente de alagamentos
 
 Global Solution 2026.2 · CitizenTech · Engenharia de Software · FIAP
-Disciplina: **C# Software Development** ·
+Disciplina: **C# Software Development**
 
 ## Integrantes
 
@@ -10,7 +10,7 @@ Disciplina: **C# Software Development** ·
 | Eduardo Dallabella Lima | RM556803 |
 | Guilherme Abe | RM554743 |
 | Gustavo Ruiz Vieira Paulino | RM554779 |
-| Helôisa | _preencher_ |
+| Heloísa Real | _preencher_ |
 | Victor Pacifico Dias | RM558017 |
 
 ## Ficha da CitizenTech
