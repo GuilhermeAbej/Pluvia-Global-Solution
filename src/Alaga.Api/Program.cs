@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Alaga.Api.Data;
@@ -5,6 +6,7 @@ using Alaga.Api.Infra;
 using Alaga.Api.Options;
 using Alaga.Api.Services;
 using Alaga.Domain.Regras;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -82,6 +84,16 @@ using (var escopo = app.Services.CreateScope())
     await db.Database.EnsureCreatedAsync();
     await DbInicializador.PopularAsync(db);
 }
+
+// Números com ponto decimal (-23.5651) em qualquer máquina. Sem isso, num Windows em pt-BR
+// os campos de formulário (multipart) leem "-23.5651" como -235651 e o relato volta 400.
+var invariante = CultureInfo.InvariantCulture;
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(invariante),
+    SupportedCultures = new[] { invariante },
+    SupportedUICultures = new[] { invariante },
+});
 
 app.UseExceptionHandler();
 app.UseSwagger();
