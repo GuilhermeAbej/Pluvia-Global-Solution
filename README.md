@@ -1,24 +1,24 @@
 # Alaga: monitoramento e prevenção inteligente de alagamentos
 
 Global Solution 2026.2 · CitizenTech · Engenharia de Software · FIAP
-Disciplina: **C# Software Development** · Base: documento de solução do grupo (versão 1.0, 06/11/2026)
+Disciplina: **C# Software Development** ·
 
 ## Integrantes
 
 | Nome | RM |
 |------|----|
-| _preencher_ | _preencher_ |
-| _preencher_ | _preencher_ |
-| _preencher_ | _preencher_ |
-| _preencher_ | _preencher_ |
-| _preencher_ | _preencher_ |
+| Eduardo Dallabella Lima | RM556803 |
+| Guilherme Abe | RM554743 |
+| Gustavo Ruiz Vieira Paulino | RM554779 |
+| Helôisa | _preencher_ |
+| Victor Pacifico Dias | RM558017 |
 
 ## Ficha da CitizenTech
 
 | Campo | Conteúdo |
 |-------|----------|
 | **Nome da CitizenTech** | Alaga |
-| **Cidade e bairro** | São Paulo (região de demonstração; o documento do grupo não fixa um bairro, e o sensor e os locais usam coordenadas fictícias) |
+| **Cidade e bairro** | São Paulo (região de demonstração; coordenadas fictícias) |
 | **Cidadão beneficiado** | Motoristas, motociclistas, entregadores, quem estaciona na rua, passageiros e moradores de áreas vulneráveis |
 | **Problema, em uma frase** | Durante chuvas fortes, pessoas entram em vias inundadas sem aviso, deixam o veículo em local vulnerável ou não sabem se um ponto de alagamento continua ativo, porque a informação é dispersa e pouco contextualizada. |
 | **Como funciona** | A API reúne ocorrências de fontes identificadas (oficial e sensores), relatos da comunidade com triagem de IA e validação, e estimativa de risco por histórico. Avisa quem monitora um local ou um veículo estacionado, sem tratar "sem ponto no mapa" como "seguro". |
@@ -45,7 +45,7 @@ localizados e transparentes. Não afirma que uma rua está liberada e não recom
 | Operating Systems | Linux com provisionamento, serviço da aplicação, scripts de monitoramento, logs e simulação de falhas |
 | Testing, Compliance & QA | Features com critérios de aceite e casos de teste no Azure Boards |
 
-## Estados que a API diferencia (seção 5 do documento)
+## Estados que a API diferencia 
 
 | Estado | Como aparece na API |
 |--------|---------------------|
@@ -96,15 +96,6 @@ Entidades do documento: Ocorrência, Fonte, HistóricoStatus, Relato, ÁreaMonit
 têm tabela própria. **Foto** e **AvaliaçãoIA** ficam dentro de `Relato` (nome do arquivo e objeto de valor `AvaliacaoImagem`),
 decisão de simplificação do MVP.
 
-## Onde cada critério de avaliação aparece
-
-| Critério | Onde está |
-|----------|-----------|
-| **POO (3,0)** | Entidades com encapsulamento e validação no construtor, máquinas de estado (`Ocorrencia`, `Relato`); objeto de valor `AvaliacaoImagem`; Strategy em `IDetectorDeAlagamento`, `IEstimadorDeRisco`, `IAnalisadorDeImagem`, `INotificador`, `IArmazenamentoDeFotos`; políticas puras (`PoliticaDeTriagem`, `PoliticaDeValidacao`); hierarquia de exceções de domínio |
-| **Web API (2,5)** | 10 controllers REST, DTOs com validação, upload multipart, códigos 200, 201, 204, 400, 401, 403, 404, 415, 422 e 429, `ProblemDetails`, Swagger com comentários XML |
-| **EF Core + LINQ (1,5)** | `AlagaDbContext` com Fluent API, índices (inclusive único), chaves estrangeiras, `OwnsOne`, conversores de data UTC; LINQ com filtros dinâmicos, caixa geográfica no banco e Haversine em memória, `join`, subconsulta com `Any`, projeções e agregações |
-| **Async/Await (1,0)** | Acesso a dados, arquivos e notificação assíncronos, com `CancellationToken` dos controllers aos serviços |
-| **Qualidade (2,0)** | Camadas separadas, injeção de dependência, `TimeProvider` para tempo testável, 84 testes, parâmetros em `appsettings.json`, este README |
 
 ## Como executar
 
