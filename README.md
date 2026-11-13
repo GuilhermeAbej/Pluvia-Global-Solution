@@ -18,13 +18,13 @@ Disciplina: **C# Software Development** · Base: documento de solução do grupo
 | Campo | Conteúdo |
 |-------|----------|
 | **Nome da CitizenTech** | Alaga |
-| **Cidade e bairro** | São Paulo, _preencher com o bairro escolhido pelo grupo_ |
+| **Cidade e bairro** | São Paulo (região de demonstração; o documento do grupo não fixa um bairro, e o sensor e os locais usam coordenadas fictícias) |
 | **Cidadão beneficiado** | Motoristas, motociclistas, entregadores, quem estaciona na rua, passageiros e moradores de áreas vulneráveis |
 | **Problema, em uma frase** | Durante chuvas fortes, pessoas entram em vias inundadas sem aviso, deixam o veículo em local vulnerável ou não sabem se um ponto de alagamento continua ativo, porque a informação é dispersa e pouco contextualizada. |
 | **Como funciona** | A API reúne ocorrências de fontes identificadas (oficial e sensores), relatos da comunidade com triagem de IA e validação, e estimativa de risco por histórico. Avisa quem monitora um local ou um veículo estacionado, sem tratar "sem ponto no mapa" como "seguro". |
 | **O que cada parte faz** | Ver "Como as partes se encaixam" |
-| **Link do repositório** | _preencher_ |
-| **Indicador de impacto** | _preencher conforme o documento do grupo_ (a seção 11 sugere: confiabilidade da informação e tempo entre registrar um evento de teste e receber o aviso) |
+| **Link do repositório** | https://github.com/GuilhermeAbej/alaga |
+| **Indicador de impacto** | Confiabilidade da informação (percentual de eventos com fonte e horário identificados e status corretamente atualizado) e rapidez dos avisos (tempo entre registrar um evento de teste e o alerta ficar disponível) |
 | **ODS conectados** | 11 (Cidades e comunidades sustentáveis), 13 (Ação contra a mudança global do clima), 9 (Indústria, inovação e infraestrutura) |
 
 ### O que a solução não faz
@@ -37,12 +37,13 @@ localizados e transparentes. Não afirma que uma rua está liberada e não recom
 | Disciplina | Parte do Alaga |
 |------------|----------------|
 | C# Software Development | Esta API (backend) |
+| SOA e Web Services | Contratos REST, domínio, persistência, migrações, Swagger e testes de integração |
 | Mobile Development & IoT | App React Native + Expo: mapa, relato com foto, local do carro, avisos |
-| Physical Computing | ESP32 no Wokwi enviando `POST /api/sensores/leituras` |
+| Physical Computing: IoT & IoB | ESP32 no Wokwi enviando `POST /api/sensores/leituras` |
 | IA e Machine Learning | Modelo de risco com dados públicos (`IEstimadorDeRisco`) e análise de imagem (`IAnalisadorDeImagem`) |
-| Cybersecurity | PII em fotos e localização, autenticação real |
-| Operating Systems | Linux que hospeda a API |
-| Testing, Compliance & QA | Casos de teste e evidências |
+| Cybersecurity | Mapeamento de dados pessoais em fotos e localização, taint analysis e dashboard de Risco Cidadão |
+| Operating Systems | Linux com provisionamento, serviço da aplicação, scripts de monitoramento, logs e simulação de falhas |
+| Testing, Compliance & QA | Features com critérios de aceite e casos de teste no Azure Boards |
 
 ## Estados que a API diferencia (seção 5 do documento)
 
@@ -110,8 +111,8 @@ decisão de simplificação do MVP.
 Pré-requisito: [.NET 8 SDK](https://dotnet.microsoft.com/download).
 
 ```bash
-git clone <link-do-repositorio>
-cd Alaga
+git clone https://github.com/GuilhermeAbej/alaga.git
+cd alaga
 dotnet run --project src/Alaga.Api
 ```
 
@@ -176,7 +177,7 @@ No Swagger, clique em **Authorize** (cadeado no topo), preencha `X-Usuario-Id` c
 ## Dados
 
 Todos os dados são **simulados**. Nenhum dado pessoal real é utilizado.
-A posição do sensor de exemplo é fictícia e deve ser trocada pelo ponto real do grupo (`DbInicializador`).
+A posição do sensor de exemplo (`DbInicializador`) é fictícia, escolhida só para a demonstração.
 
 ## Evidências de funcionamento
 
