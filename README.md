@@ -10,7 +10,7 @@ Disciplina: **C# Software Development**
 | Eduardo Dallabella Lima | RM556803 |
 | Guilherme Abe | RM554743 |
 | Gustavo Ruiz Vieira Paulino | RM554779 |
-| Heloísa Real | _preencher_ |
+| Heloísa Real | RM554535 |
 | Victor Pacifico Dias | RM558017 |
 
 ## Ficha da CitizenTech
@@ -195,7 +195,3 @@ Os prints estão em `docs/evidencias/`. O fluxo abaixo foi executado de ponta a 
 | 17 | `dotnet test` | 84 testes passando | `17-testes.png` |
 
 Regras que o fluxo comprova: só uma fonte confirma e encerra uma ocorrência; é preciso duas leituras seguidas do sensor para abrir ou encerrar; a ausência de dados nunca é tratada como segurança; o alerta de encerramento não promete que a via está livre.
-
-## Uso de IA
-
-O registro dos prompts está em [`prompts.md`](prompts.md).
