@@ -5,5 +5,5 @@ obj/
 *.db
 *.db-shm
 *.db-wal
-src/Alaga.Api/fotos/
+src/Pluvia.Api/fotos/
 TestResults/

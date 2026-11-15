@@ -1,4 +1,4 @@
-# Alaga: monitoramento e prevenção inteligente de alagamentos
+# Pluvia: monitoramento e prevenção inteligente de alagamentos
 
 Global Solution 2026.2 · CitizenTech · Engenharia de Software · FIAP
 Disciplina: **C# Software Development**
@@ -17,24 +17,24 @@ Disciplina: **C# Software Development**
 
 | Campo | Conteúdo |
 |-------|----------|
-| **Nome da CitizenTech** | Alaga |
+| **Nome da CitizenTech** | Pluvia |
 | **Cidade e bairro** | São Paulo (região de demonstração; coordenadas fictícias) |
 | **Cidadão beneficiado** | Motoristas, motociclistas, entregadores, quem estaciona na rua, passageiros e moradores de áreas vulneráveis |
 | **Problema, em uma frase** | Durante chuvas fortes, pessoas entram em vias inundadas sem aviso, deixam o veículo em local vulnerável ou não sabem se um ponto de alagamento continua ativo, porque a informação é dispersa e pouco contextualizada. |
 | **Como funciona** | A API reúne ocorrências de fontes identificadas (oficial e sensores), relatos da comunidade com triagem de IA e validação, e estimativa de risco por histórico. Avisa quem monitora um local ou um veículo estacionado, sem tratar "sem ponto no mapa" como "seguro". |
 | **O que cada parte faz** | Ver "Como as partes se encaixam" |
-| **Link do repositório** | https://github.com/GuilhermeAbej/alaga |
+| **Link do repositório** | https://github.com/GuilhermeAbej/pluvia |
 | **Indicador de impacto** | Confiabilidade da informação (percentual de eventos com fonte e horário identificados e status corretamente atualizado) e rapidez dos avisos (tempo entre registrar um evento de teste e o alerta ficar disponível) |
 | **ODS conectados** | 11 (Cidades e comunidades sustentáveis), 13 (Ação contra a mudança global do clima), 9 (Indústria, inovação e infraestrutura) |
 
 ### O que a solução não faz
 
-O Alaga não promete prever cada enchente e não substitui comunicados oficiais. Ele transforma informação dispersa em alertas
+O Pluvia não promete prever cada enchente e não substitui comunicados oficiais. Ele transforma informação dispersa em alertas
 localizados e transparentes. Não afirma que uma rua está liberada e não recomenda atravessar água.
 
 ### Como as partes se encaixam
 
-| Disciplina | Parte do Alaga |
+| Disciplina | Parte do Pluvia |
 |------------|----------------|
 | C# Software Development | Esta API (backend) |
 | SOA e Web Services | Contratos REST, domínio, persistência, migrações, Swagger e testes de integração |
@@ -77,10 +77,10 @@ localizados e transparentes. Não afirma que uma rua está liberada e não recom
 
 ```
 src/
-  Alaga.Domain/   Entidades, regras e interfaces de estratégia (sem dependência de framework)
-  Alaga.Api/      Controllers, serviços, EF Core, DTOs, infraestrutura
+  Pluvia.Domain/   Entidades, regras e interfaces de estratégia (sem dependência de framework)
+  Pluvia.Api/      Controllers, serviços, EF Core, DTOs, infraestrutura
 tests/
-  Alaga.Tests/    Testes unitários e de serviço (xUnit, SQLite em memória)
+  Pluvia.Tests/    Testes unitários e de serviço (xUnit, SQLite em memória)
 ```
 
 ```
@@ -102,17 +102,17 @@ decisão de simplificação do MVP.
 Pré-requisito: [.NET 8 SDK](https://dotnet.microsoft.com/download).
 
 ```bash
-git clone https://github.com/GuilhermeAbej/alaga.git
-cd alaga
-dotnet run --project src/Alaga.Api
+git clone https://github.com/GuilhermeAbej/pluvia.git
+cd pluvia
+dotnet run --project src/Pluvia.Api
 ```
 
 A API sobe em `http://localhost:5080` e o Swagger em `http://localhost:5080/swagger`.
-O banco SQLite (`alaga.db`) é criado ao lado do projeto `Alaga.Api` no primeiro uso, com duas fontes
-(uma oficial simulada e o sensor) e o sensor `ESP32-001`. Para recomeçar do zero, pare a API e apague `src/Alaga.Api/alaga.db`
+O banco SQLite (`pluvia.db`) é criado ao lado do projeto `Pluvia.Api` no primeiro uso, com duas fontes
+(uma oficial simulada e o sensor) e o sensor `ESP32-001`. Para recomeçar do zero, pare a API e apague `src/Pluvia.Api/pluvia.db`
 (e a pasta `fotos`, se existir). Se você rodou uma versão anterior do projeto, apague esse arquivo antes.
 
-Testes: `dotnet test`. O arquivo `src/Alaga.Api/alaga.http` tem a sequência de demonstração (extensão REST Client do VS Code).
+Testes: `dotnet test`. O arquivo `src/Pluvia.Api/pluvia.http` tem a sequência de demonstração (extensão REST Client do VS Code).
 
 ### Identificação no Swagger
 
@@ -158,7 +158,7 @@ No Swagger, clique em **Authorize** (cadeado no topo), preencha `X-Usuario-Id` c
 | Privacidade da foto | Remove EXIF e metadados. **Não desfoca placas nem rostos**; por isso a foto não é pública, só autor e fonte oficial |
 | Fonte oficial (CGE-SP) | **Simulada** por `POST /api/ocorrencias` com chave oficial. Não há integração real |
 | Notificação | **Só log no console**, com a mensagem completa para a demonstração. Push entra em `INotificador` |
-| Estimativa de risco | Regra por histórico do próprio Alaga (0 = baixo, 1 a 2 = moderado, 3 ou mais = alto, mínimo de 30 dias). **Não é o modelo de ML** do documento e não usa chuva (INMET) |
+| Estimativa de risco | Regra por histórico do próprio Pluvia (0 = baixo, 1 a 2 = moderado, 3 ou mais = alto, mínimo de 30 dias). **Não é o modelo de ML** do documento e não usa chuva (INMET) |
 | Verificação de status | Acontece no momento de cada evento. **Não há job periódico** |
 | Busca por bairro ou endereço | Fica no app. A API recebe latitude e longitude |
 | Autenticação e HTTPS | Simuladas por cabeçalhos e HTTP local. Produção exige JWT, HTTPS e política de retenção |
