@@ -2,8 +2,6 @@ using Pluvia.Domain.Exceptions;
 
 namespace Pluvia.Domain.Geo;
 
-public readonly record struct CaixaGeografica(double LatMin, double LatMax, double LngMin, double LngMax);
-
 public static class GeoCalculator
 {
     private const double RaioTerraMetros = 6_371_000;

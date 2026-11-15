@@ -2,8 +2,6 @@ using Pluvia.Domain.Exceptions;
 
 namespace Pluvia.Domain.Regras;
 
-public record ImagemSanitizada(byte[] Bytes, string Extensao, bool MetadadosRemovidos);
-
 /// <summary>
 /// Valida a imagem pelos bytes (não pela extensão) e remove metadados (EXIF com GPS, XMP, comentários).
 /// Aceita JPEG e PNG. Não desfoca placas nem rostos: por isso a foto só é vista pelo autor e pela fonte oficial.

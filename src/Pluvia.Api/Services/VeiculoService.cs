@@ -6,32 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Pluvia.Api.Services;
 
-public class UsuarioService : IUsuarioService
-{
-    private readonly PluviaDbContext _db;
-    private readonly TimeProvider _relogio;
-
-    public UsuarioService(PluviaDbContext db, TimeProvider relogio) { _db = db; _relogio = relogio; }
-
-    public async Task<UsuarioResponse> CriarAsync(CriarUsuarioRequest req, CancellationToken ct = default)
-    {
-        var usuario = new Usuario(req.Nome, req.ConsentimentoLgpd, _relogio.GetUtcNow().UtcDateTime);
-        _db.Usuarios.Add(usuario);
-        await _db.SaveChangesAsync(ct);
-        return new UsuarioResponse(usuario.Id, usuario.Nome);
-    }
-}
-
-public class FonteService : IFonteService
-{
-    private readonly PluviaDbContext _db;
-    public FonteService(PluviaDbContext db) => _db = db;
-
-    public async Task<IReadOnlyList<FonteResponse>> ListarAsync(CancellationToken ct = default) =>
-        await _db.Fontes.AsNoTracking().OrderBy(f => f.Id)
-            .Select(f => new FonteResponse(f.Id, f.Nome, f.Tipo)).ToListAsync(ct);
-}
-
 public class VeiculoService : IVeiculoService
 {
     private readonly PluviaDbContext _db;
@@ -83,26 +57,4 @@ public class VeiculoService : IVeiculoService
     }
 
     private static VeiculoResponse Mapear(Veiculo v) => new(v.Id, v.Apelido, v.RaioMetros, v.AvisosAtivos);
-}
-
-public class AlertaService : IAlertaService
-{
-    private readonly PluviaDbContext _db;
-    public AlertaService(PluviaDbContext db) => _db = db;
-
-    public async Task<IReadOnlyList<AlertaResponse>> ListarDoUsuarioAsync(int usuarioId, CancellationToken ct = default)
-    {
-        var linhas = await (
-            from a in _db.Alertas.AsNoTracking()
-            where a.UsuarioId == usuarioId
-            join o in _db.Ocorrencias on a.OcorrenciaId equals o.Id
-            join f in _db.Fontes on o.FonteId equals f.Id
-            orderby a.CriadoEm descending
-            select new { a.Id, a.Tipo, a.Mensagem, a.OcorrenciaId, Fonte = f.Nome, a.CriadoEm }
-        ).ToListAsync(ct);
-
-        // Cada aviso leva origem, horário e link para o evento.
-        return linhas.Select(l => new AlertaResponse(
-            l.Id, l.Tipo, l.Mensagem, l.OcorrenciaId, l.Fonte, $"/api/ocorrencias/{l.OcorrenciaId}", l.CriadoEm)).ToList();
-    }
 }
