@@ -109,7 +109,7 @@ dotnet run --project src/Pluvia.Api
 ```
 
 A API sobe em `http://localhost:5080` e o Swagger em `http://localhost:5080/swagger`.
-O banco SQLite (`pluvia.db`) é criado ao lado do projeto `Pluvia.Api` no primeiro uso, com duas fontes
+O banco SQLite (`pluvia.db`) é criado pelas migrações do EF Core (`src/Pluvia.Api/Data/Migrations`) ao lado do projeto `Pluvia.Api` no primeiro uso, com duas fontes
 (uma oficial simulada e o sensor) e o sensor `ESP32-001`. Para recomeçar do zero, pare a API e apague `src/Pluvia.Api/pluvia.db`
 (e a pasta `fotos`, se existir). Se você rodou uma versão anterior do projeto, apague esse arquivo antes.
 

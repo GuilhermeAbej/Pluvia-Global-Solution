@@ -81,7 +81,7 @@ var app = builder.Build();
 using (var escopo = app.Services.CreateScope())
 {
     var db = escopo.ServiceProvider.GetRequiredService<PluviaDbContext>();
-    await db.Database.EnsureCreatedAsync();
+    await db.Database.MigrateAsync();
     await DbInicializador.PopularAsync(db);
 }
 
