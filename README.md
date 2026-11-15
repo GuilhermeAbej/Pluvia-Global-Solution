@@ -103,8 +103,9 @@ decisão de simplificação do MVP.
 Pré-requisito: [.NET 8 SDK](https://dotnet.microsoft.com/download).
 
 ```bash
-git clone https://github.com/GuilhermeAbej/pluvia.git
-cd pluvia
+git clone https://github.com/GuilhermeAbej/Pluvia-Global-Solution
+.git
+cd Pluvia-Global-Solution
 dotnet run --project src/Pluvia.Api
 ```
 
