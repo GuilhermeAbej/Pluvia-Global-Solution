@@ -23,7 +23,8 @@ Disciplina: **C# Software Development**
 | **Problema, em uma frase** | Durante chuvas fortes, pessoas entram em vias inundadas sem aviso, deixam o veículo em local vulnerável ou não sabem se um ponto de alagamento continua ativo, porque a informação é dispersa e pouco contextualizada. |
 | **Como funciona** | A API reúne ocorrências de fontes identificadas (oficial e sensores), relatos da comunidade com triagem de IA e validação, e estimativa de risco por histórico. Avisa quem monitora um local ou um veículo estacionado, sem tratar "sem ponto no mapa" como "seguro". |
 | **O que cada parte faz** | Ver "Como as partes se encaixam" |
-| **Link do repositório** | https://github.com/GuilhermeAbej/pluvia |
+| **Link do repositório** | https://github.com/GuilhermeAbej/Pluvia-Global-Solution
+|
 | **Indicador de impacto** | Confiabilidade da informação (percentual de eventos com fonte e horário identificados e status corretamente atualizado) e rapidez dos avisos (tempo entre registrar um evento de teste e o alerta ficar disponível) |
 | **ODS conectados** | 11 (Cidades e comunidades sustentáveis), 13 (Ação contra a mudança global do clima), 9 (Indústria, inovação e infraestrutura) |
 
