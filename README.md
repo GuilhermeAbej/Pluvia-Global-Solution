@@ -1,7 +1,7 @@
 # Pluvia: monitoramento e prevenção inteligente de alagamentos
 
 Global Solution 2026.2 · CitizenTech · Engenharia de Software · FIAP
-Disciplina: **C# Software Development**
+Disciplinas: **C# Software Development**; **Arquitetura Orientada a Serviços e Web Services (SOA)**
 
 ## Integrantes
 
@@ -18,13 +18,12 @@ Disciplina: **C# Software Development**
 | Campo | Conteúdo |
 |-------|----------|
 | **Nome da CitizenTech** | Pluvia |
-| **Cidade e bairro** | São Paulo (região de demonstração; coordenadas fictícias) |
+| **Cidade e bairro** | São Paulo, SP, região central. O sensor e os locais de demonstração usam coordenadas fictícias. |
 | **Cidadão beneficiado** | Motoristas, motociclistas, entregadores, quem estaciona na rua, passageiros e moradores de áreas vulneráveis |
 | **Problema, em uma frase** | Durante chuvas fortes, pessoas entram em vias inundadas sem aviso, deixam o veículo em local vulnerável ou não sabem se um ponto de alagamento continua ativo, porque a informação é dispersa e pouco contextualizada. |
 | **Como funciona** | A API reúne ocorrências de fontes identificadas (oficial e sensores), relatos da comunidade com triagem de IA e validação, e estimativa de risco por histórico. Avisa quem monitora um local ou um veículo estacionado, sem tratar "sem ponto no mapa" como "seguro". |
-| **O que cada parte faz** | Ver "Como as partes se encaixam" |
-| **Link do repositório** | https://github.com/GuilhermeAbej/Pluvia-Global-Solution
-|
+| **O que cada parte faz** | **API em C#** (este repositório, C# e SOA): recebe as leituras dos sensores, registra e encerra as ocorrências, avalia os relatos e gera os alertas. **App** (Mobile): mapa, filtros, meu carro, relatos com foto, avisos e moderação; hoje usa dados simulados e segue o mesmo contrato desta API. **ESP32** (Physical Computing): mede o nível da água; esta API já tem a rota para receber essas leituras. **IA e ML**: triagem das fotos e estimativa de risco por região. **Linux** (Operating Systems): roda a API com monitoramento. **Cybersecurity**: audita os dados pessoais da solução. |
+| **Link do repositório** | https://github.com/GuilhermeAbej/Pluvia-Global-Solution |
 | **Indicador de impacto** | Confiabilidade da informação (percentual de eventos com fonte e horário identificados e status corretamente atualizado) e rapidez dos avisos (tempo entre registrar um evento de teste e o alerta ficar disponível) |
 | **ODS conectados** | 11 (Cidades e comunidades sustentáveis), 13 (Ação contra a mudança global do clima), 9 (Indústria, inovação e infraestrutura) |
 
@@ -37,8 +36,8 @@ localizados e transparentes. Não afirma que uma rua está liberada e não recom
 
 | Disciplina | Parte do Pluvia |
 |------------|----------------|
-| C# Software Development | Esta API (backend) |
-| SOA e Web Services | Contratos REST, domínio, persistência, migrações, Swagger e testes de integração |
+| C# Software Development | Esta API (backend): POO, Web API, EF Core, LINQ, async e testes unitários |
+| SOA e Web Services | Esta mesma API: domínio, banco de dados, migrações, Swagger e testes automatizados |
 | Mobile Development & IoT | App React Native + Expo: mapa, relato com foto, local do carro, avisos |
 | Physical Computing: IoT & IoB | ESP32 no Wokwi enviando `POST /api/sensores/leituras` |
 | IA e Machine Learning | Modelo de risco com dados públicos (`IEstimadorDeRisco`) e análise de imagem (`IAnalisadorDeImagem`) |
@@ -111,7 +110,7 @@ dotnet run --project src/Pluvia.Api
 A API sobe em `http://localhost:5080` e o Swagger em `http://localhost:5080/swagger`.
 O banco SQLite (`pluvia.db`) é criado pelas migrações do EF Core (`src/Pluvia.Api/Data/Migrations`) ao lado do projeto `Pluvia.Api` no primeiro uso, com duas fontes
 (uma oficial simulada e o sensor) e o sensor `ESP32-001`. Para recomeçar do zero, pare a API e apague `src/Pluvia.Api/pluvia.db`
-(e a pasta `fotos`, se existir). Se você rodou uma versão anterior do projeto, apague esse arquivo antes.
+(e a pasta `fotos`, se existir).
 
 Testes: `dotnet test`. O arquivo `src/Pluvia.Api/pluvia.http` tem a sequência de demonstração (extensão REST Client do VS Code).
 
